@@ -350,7 +350,7 @@
         }
         const SESSION = getSession();
         if (!SESSION) {
-            window.location.replace('Index.html');
+            window.location.replace('index.html');
         }
         // Teachers to exclude from frontend (case-insensitive, trimmed)
         const EXCLUDED_TEACHER_NAMES = [
@@ -872,7 +872,7 @@
 
         function logout() {
             try { sessionStorage.removeItem(SESSION_STORAGE_KEY); } catch (e) {}
-            window.location.replace('Index.html');
+            window.location.replace('index.html');
         }
 
         // --- CORE DASHBOARD LOGIC ---
