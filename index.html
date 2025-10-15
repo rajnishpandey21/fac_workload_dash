@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Faculty Workload Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(145deg, #66023c 0%, #cd1c18 100%); min-height: 100vh; }
+    </style>
+    <script>
+        const CENTER_PASSWORDS = {
+            "Agra": "AGR732",
+            "Bhopal": "BPL533",
+            "Bhubaneshwar": "BBS580",
+            "Indore": "IND951",
+            "Jaipur": "JPR744",
+            "Kolkata": "KOL583",
+            "Lucknow": "LKN472",
+            "New Delhi": "DEL812",
+            "Patna": "PAT369",
+            "Prayagraj": "PRJ638",
+            "Ranchi": "RNC207",
+            "Siliguri": "SLG498",
+            "Varanasi": "VNS861"
+        };
+
+        const ADMIN_USERNAME = 'admin';
+        const ADMIN_PASSWORD = 'adminGEW123';
+
+        function handleCenterLogin(event) {
+            event.preventDefault();
+            const center = document.getElementById('center').value;
+            const password = document.getElementById('center-password').value.trim();
+            if (!center) { alert('Please select a center.'); return; }
+            const expected = CENTER_PASSWORDS[center];
+            if (password === expected) {
+                const session = { role: 'center', center };
+                sessionStorage.setItem('fw_session', JSON.stringify(session));
+                window.location.href = 'dashboard.html';
+            } else {
+                alert('Invalid center password.');
+            }
+        }
+
+        function handleAdminLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('admin-username').value.trim();
+            const password = document.getElementById('admin-password').value.trim();
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                const session = { role: 'admin' };
+                sessionStorage.setItem('fw_session', JSON.stringify(session));
+                window.location.href = 'dashboard.html';
+            } else {
+                alert('Invalid admin credentials.');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const centerSelect = document.getElementById('center');
+            const centers = Object.keys(CENTER_PASSWORDS);
+            centerSelect.innerHTML = '<option value="">Select Center</option>' + centers.map(c => `<option value="${c}">${c}</option>`).join('');
+        });
+    </script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+</head>
+<body class="flex items-center justify-center p-4">
+    <div class="w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white/95 backdrop-blur rounded-2xl border-2 border-gray-300 shadow-xl p-6">
+            <h2 class="text-xl font-extrabold text-gray-800 mb-4">Center Login</h2>
+            <form onsubmit="handleCenterLogin(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 mb-1" for="center">Center</label>
+                    <select id="center" class="w-full h-10 rounded-lg border border-gray-300 bg-gray-50 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"></select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 mb-1" for="center-password">Password</label>
+                    <input id="center-password" type="password" class="w-full h-10 rounded-lg border border-gray-300 bg-gray-50 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Enter center password" required />
+                </div>
+                <button type="submit" class="w-full h-11 rounded-xl font-extrabold text-white bg-indigo-600 hover:bg-indigo-700 transition">Continue to Dashboard</button>
+            </form>
+        </div>
+
+        <div class="bg-white/95 backdrop-blur rounded-2xl border-2 border-gray-300 shadow-xl p-6">
+            <h2 class="text-xl font-extrabold text-gray-800 mb-4">Admin Login</h2>
+            <form onsubmit="handleAdminLogin(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 mb-1" for="admin-username">Username</label>
+                    <input id="admin-username" type="text" class="w-full h-10 rounded-lg border border-gray-300 bg-gray-50 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="admin" required />
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-600 mb-1" for="admin-password">Password</label>
+                    <input id="admin-password" type="password" class="w-full h-10 rounded-lg border border-gray-300 bg-gray-50 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="••••••••" required />
+                </div>
+                <button type="submit" class="w-full h-11 rounded-xl font-extrabold text-white bg-rose-600 hover:bg-rose-700 transition">Login as Admin</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
